@@ -406,11 +406,23 @@ async function seedNetworkEntities(seed: DemoComplaintSeed) {
 }
 
 async function seedInitialAlerts() {
-  const alertSeeds = [
+  const alertSeeds: {
+    alert_id: string
+    complaint_id: string
+    severity: 'critical' | 'high' | 'medium'
+    title: string
+    description: string
+    location: string
+    latitude: number
+    longitude: number
+    eta_minutes: number
+    recommended_action: string
+    status: 'active'
+  }[] = [
     {
       alert_id: 'ALERT-2026-001',
       complaint_id: 'NCRP-2026-DEL-8841',
-      severity: 'critical' as const,
+      severity: 'critical',
       title: 'Critical: Digital Arrest Cashout Imminent',
       description: '₹4,50,000 routed through 3 mule hops to PNB Badarpur. Cashout predicted within 18 minutes.',
       location: 'SBI e-Corner, Mathura Road, Badarpur',
@@ -418,12 +430,12 @@ async function seedInitialAlerts() {
       longitude: 77.3045,
       eta_minutes: 18,
       recommended_action: 'Dispatch PCR unit immediately. Coordinate with bank to freeze mule card.',
-      status: 'active' as const,
+      status: 'active',
     },
     {
       alert_id: 'ALERT-2026-002',
       complaint_id: 'NCRP-2026-BLR-9022',
-      severity: 'high' as const,
+      severity: 'high',
       title: 'High: Fake Trading App - Large Cashout Predicted',
       description: '₹8,20,000 routed through 3 hops. Terminal mule at Bank of Baroda. Cashout predicted within 25 minutes.',
       location: 'BoB Micro-ATM, Badarpur Border',
@@ -431,12 +443,12 @@ async function seedInitialAlerts() {
       longitude: 77.307,
       eta_minutes: 25,
       recommended_action: 'Alert bank branch. Dispatch patrol unit to monitor ATM.',
-      status: 'active' as const,
+      status: 'active',
     },
     {
       alert_id: 'ALERT-2026-003',
       complaint_id: 'NCRP-2026-MUM-4190',
-      severity: 'medium' as const,
+      severity: 'medium',
       title: 'Medium: Telegram Task Fraud Cashout',
       description: '₹1,85,000 routed through 2 hops to SBI terminal mule.',
       location: 'SBI ATM, Faridabad',
@@ -444,7 +456,7 @@ async function seedInitialAlerts() {
       longitude: 77.3178,
       eta_minutes: 30,
       recommended_action: 'Monitor ATM. Alert bank compliance team.',
-      status: 'active' as const,
+      status: 'active',
     },
   ]
 
