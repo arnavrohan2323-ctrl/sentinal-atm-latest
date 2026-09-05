@@ -28,19 +28,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } else {
         setLoading(false)
       }
+    }).catch(() => {
+      setLoading(false)
     })
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, sess) => {
-      setSession(sess)
-      if (sess) {
-        loadProfile(sess.user.id)
-      } else {
-        setProfile(null)
-        setLoading(false)
-      }
-    })
+    let listener: { subscription: { unsubscribe: () => void } } | null = null
+    try {
+      const result = supabase.auth.onAuthStateChange((_event, sess) => {
+        setSession(sess)
+        if (sess) {
+          loadProfile(sess.user.id)
+        } else {
+          setProfile(null)
+          setLoading(false)
+        }
+      })
+      listener = result.data
+    } catch {
+      setLoading(false)
+    }
 
-    return () => listener.subscription.unsubscribe()
+    return () => {
+      listener?.subscription.unsubscribe()
+    }
   }, [])
 
   async function loadProfile(userId: string) {
